@@ -6,7 +6,6 @@ const Users = () => {
   const [editingUser, setEditingUser] = useState(null);
   const [newUser, setNewUser] = useState({ name: "", email: "", role: "", status: "Active" });
 
-  // Load users and roles from local storage on component mount
   useEffect(() => {
     const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
     const storedRoles = JSON.parse(localStorage.getItem("roles")) || [];
@@ -14,7 +13,6 @@ const Users = () => {
     setRoles(storedRoles);
   }, []);
 
-  // Save users to local storage whenever they are updated
   useEffect(() => {
     if (users.length > 0) {
       localStorage.setItem("users", JSON.stringify(users));
@@ -60,10 +58,9 @@ const Users = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-6 bg-gray-100">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">User Management</h2>
 
-      {/* User Table */}
       <div className="overflow-x-auto mb-6">
         <table className="min-w-full bg-white rounded-lg shadow-md">
           <thead>
@@ -102,7 +99,6 @@ const Users = () => {
         </table>
       </div>
 
-      {/* Add or Edit User */}
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h3 className="text-lg font-semibold text-gray-800 mb-4">
           {editingUser ? "Edit User" : "Add New User"}

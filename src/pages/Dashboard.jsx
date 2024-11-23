@@ -77,7 +77,7 @@ const Dashboard = () => {
         </button>
       </div>
       <main className="bg-white rounded-lg shadow-md p-6">
-        {activeTab && renderContent()} {/* Only render content if activeTab is not null */}
+        {activeTab && renderContent()} 
       </main>
     </div>
   );
