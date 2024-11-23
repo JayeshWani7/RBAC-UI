@@ -20,8 +20,10 @@ const Roles = () => {
 
   const handleAddRole = () => {
     if (!newRole.name) return;
-    const newRoleWithId = { ...newRole, id: roles.length + 1 };
-    setRoles([...roles, newRoleWithId]);
+    const newRoleWithId = { ...newRole, id: Date.now() }; // Use Date.now for unique id
+    const updatedRoles = [...roles, newRoleWithId];
+    setRoles(updatedRoles);
+    localStorage.setItem("roles", JSON.stringify(updatedRoles));
     setNewRole({ name: "", permissions: [] });
   };
 
@@ -40,7 +42,9 @@ const Roles = () => {
   };
 
   const handleDeleteRole = (id) => {
-    setRoles(roles.filter((role) => role.id !== id));
+    const updatedRoles = roles.filter((role) => role.id !== id);
+    setRoles(updatedRoles);
+    localStorage.setItem("roles", JSON.stringify(updatedRoles));
   };
 
   return (
