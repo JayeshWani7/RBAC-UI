@@ -1,6 +1,6 @@
-# Role Management System
+# User Management System
 
-This is a simple Role Management System built using React that allows users to manage roles and assign permissions. The system persists roles in the browser's `localStorage`, ensuring that data remains intact even after a page reload.
+This is a simple User Management System built using React that allows users to manage roles and assign permissions. The system persists roles in the browser's `localStorage`, ensuring that data remains intact even after a page reload.
 
 ## Features
 
