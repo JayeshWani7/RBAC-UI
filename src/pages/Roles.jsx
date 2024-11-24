@@ -33,7 +33,6 @@ const Roles = () => {
 
   useEffect(() => {
     if (roles.length > 0) {
-      console.log("Saving roles to localStorage:", roles);
       localStorage.setItem("roles", JSON.stringify(roles));
     }
   }, [roles]);
@@ -41,7 +40,6 @@ const Roles = () => {
   const handleAddRole = () => {
     if (!newRole.name) return;
     const newRoleWithId = { ...newRole, id: roles.length + 1 };
-    console.log("Adding new role:", newRoleWithId); // Log the new role
     setRoles([...roles, newRoleWithId]);
     setNewRole({ name: "", permissions: [] });
   };
@@ -82,7 +80,6 @@ const Roles = () => {
           </thead>
           <tbody>
             {roles.map((role) => {
-              console.log("Rendering role:", role); // Log each role data
               return (
                 <tr key={role.id} className="border-b hover:bg-gray-50">
                   <td className="px-6 py-4 text-sm text-gray-800">{role.name}</td>
