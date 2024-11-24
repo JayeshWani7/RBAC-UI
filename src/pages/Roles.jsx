@@ -7,10 +7,7 @@ const Roles = () => {
 
   useEffect(() => {
     const savedRoles = JSON.parse(localStorage.getItem("roles"));
-    if (savedRoles) {
-      console.log("Saved roles from localStorage:", savedRoles);
-      setRoles(savedRoles);
-    } else {
+    if(savedRoles) {
       const sampleRoles = [
         {
           id: 1,
