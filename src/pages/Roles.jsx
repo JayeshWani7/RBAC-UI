@@ -21,7 +21,7 @@ const Roles = () => {
         },
         {
           id: 3,
-          name: "Viewer",
+          name: "User",
           permissions: ["Read"]
         }
       ];
