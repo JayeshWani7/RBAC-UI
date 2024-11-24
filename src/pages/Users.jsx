@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [roles, setRoles] = useState([]);
+  const [roleFilter, setRoleFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
   const [editingUser, setEditingUser] = useState(null);
   const [newUser, setNewUser] = useState({ name: "", email: "", role: "", status: "Active" });
 
@@ -74,10 +76,41 @@ const Users = () => {
     });
   };
 
+  // Filter Logic
+  const filteredUsers = users.filter(
+    (user) =>
+      (roleFilter ? user.role === roleFilter : true) &&
+      (statusFilter ? user.status === statusFilter : true)
+  );
+
   return (
     <div className="p-6 bg-gray-100">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">User Management</h2>
+      {/* Filter Section */}
+      <div className="flex flex-col md:flex-row gap-4 mb-6">
+        <select
+          value={roleFilter}
+          onChange={(e) => setRoleFilter(e.target.value)}
+          className="w-full md:w-1/3 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">All Roles</option>
+          {roles.map((role) => (
+            <option key={role.id} value={role.name}>
+              {role.name}
+            </option>
+          ))}
+        </select>
 
+        <select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          className="w-full md:w-1/3 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">All Statuses</option>
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+      </div>
       <div className="overflow-x-auto mb-6">
         <table className="min-w-full bg-white rounded-lg shadow-md">
           <thead>
@@ -90,7 +123,7 @@ const Users = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
+            {filteredUsers.map((user) => (
               <tr key={user.id} className="hover:bg-gray-50 border-b">
                 <td className="px-4 py-2 text-sm text-gray-800">{user.name}</td>
                 <td className="px-4 py-2 text-sm text-gray-800">{user.email}</td>
@@ -114,7 +147,11 @@ const Users = () => {
             ))}
           </tbody>
         </table>
+        {filteredUsers.length === 0 && (
+          <p className="text-center text-gray-600 mt-4">No users found.</p>
+        )}
       </div>
+      
 
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h3 className="text-lg font-semibold text-gray-800 mb-4">
