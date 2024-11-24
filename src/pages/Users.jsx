@@ -9,10 +9,36 @@ const Users = () => {
   const [newUser, setNewUser] = useState({ name: "", email: "", role: "", status: "Active" });
 
   useEffect(() => {
-    const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-    const storedRoles = JSON.parse(localStorage.getItem("roles")) || [];
-    setUsers(storedUsers);
-    setRoles(storedRoles);
+    const storedUsers = JSON.parse(localStorage.getItem("users"));
+    const storedRoles = JSON.parse(localStorage.getItem("roles"));
+
+    if (!storedUsers || storedUsers.length === 0) {
+      // Adding 5 sample users
+      const sampleUsers = [
+        { id: 1, name: "Jayesh Wani", email: "jayesh@example.com", role: "Admin", status: "Active" },
+        { id: 2, name: "Rohan Wani", email: "rohan@example.com", role: "User", status: "Inactive" },
+        { id: 3, name: "Atharva Wani", email: "atharva@example.com", role: "Editor", status: "Active" },
+        { id: 4, name: "Varad Jain", email: "varad@example.com", role: "Admin", status: "Active" },
+        { id: 5, name: "Sanjay Yadav", email: "sanjay@example.com", role: "User", status: "Inactive" },
+      ];
+      setUsers(sampleUsers);
+      localStorage.setItem("users", JSON.stringify(sampleUsers));
+    } else {
+      setUsers(storedUsers);
+    }
+
+    if (!storedRoles || storedRoles.length === 0) {
+      // Default roles
+      const defaultRoles = [
+        { id: 1, name: "Admin" },
+        { id: 2, name: "User" },
+        { id: 3, name: "Editor" },
+      ];
+      setRoles(defaultRoles);
+      localStorage.setItem("roles", JSON.stringify(defaultRoles));
+    } else {
+      setRoles(storedRoles);
+    }
   }, []);
 
   useEffect(() => {
@@ -76,7 +102,6 @@ const Users = () => {
     });
   };
 
-  // Filter Logic
   const filteredUsers = users.filter(
     (user) =>
       (roleFilter ? user.role === roleFilter : true) &&

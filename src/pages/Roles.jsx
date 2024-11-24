@@ -10,6 +10,26 @@ const Roles = () => {
     const savedRoles = JSON.parse(localStorage.getItem("roles"));
     if (savedRoles) {
       setRoles(savedRoles);
+    } else {
+      const sampleRoles = [
+        {
+          id: 1,
+          name: "Admin",
+          permissions: ["Read", "Write", "Delete"],
+        },
+        {
+          id: 2,
+          name: "Editor",
+          permissions: ["Read", "Write"],
+        },
+        {
+          id: 3,
+          name: "Viewer",
+          permissions: ["Read"],
+        },
+      ];
+      setRoles(sampleRoles);
+      localStorage.setItem("roles", JSON.stringify(sampleRoles));
     }
   }, []);
 
@@ -55,9 +75,7 @@ const Roles = () => {
   const handleUpdateRole = () => {
     if (!editingRole.name) return;
     setRoles(
-      roles.map((role) =>
-        role.id === editingRole.id ? editingRole : role
-      )
+      roles.map((role) => (role.id === editingRole.id ? editingRole : role))
     );
     setEditingRole(null);
   };
