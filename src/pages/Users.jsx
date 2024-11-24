@@ -19,9 +19,18 @@ const Users = () => {
     }
   }, [users]);
 
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleAddUser = () => {
     if (!newUser.name || !newUser.email || !newUser.role) {
       alert("Please fill out all fields.");
+      return;
+    }
+    if (!validateEmail(newUser.email)) {
+      alert("Please enter a valid email address.");
       return;
     }
     const newUserWithId = { ...newUser, id: users.length + 1 };
@@ -39,6 +48,14 @@ const Users = () => {
   };
 
   const handleSaveUser = () => {
+    if (!editingUser.name || !editingUser.email || !editingUser.role) {
+      alert("Please fill out all fields.");
+      return;
+    }
+    if (!validateEmail(editingUser.email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
     setUsers((prevUsers) => {
       const updatedUsers = prevUsers.map((u) =>
         u.id === editingUser.id ? editingUser : u
@@ -141,6 +158,18 @@ const Users = () => {
                 {role.name}
               </option>
             ))}
+          </select>
+          <select
+            value={editingUser ? editingUser.status : newUser.status}
+            onChange={(e) =>
+              editingUser
+                ? setEditingUser({ ...editingUser, status: e.target.value })
+                : setNewUser({ ...newUser, status: e.target.value })
+            }
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
           </select>
         </div>
         <div className="mt-4">
