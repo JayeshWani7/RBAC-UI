@@ -8,13 +8,14 @@ const Roles = () => {
   useEffect(() => {
     const savedRoles = JSON.parse(localStorage.getItem("roles"));
     if (savedRoles) {
+      console.log("Saved roles from localStorage:", savedRoles);
       setRoles(savedRoles);
     } else {
       const sampleRoles = [
         {
           id: 1,
           name: "Admin",
-          permissions: ["Read", "Write", "Delete"],
+          permissions: ["Read", "Write", "Delete"]
         },
         {
           id: 2,
@@ -24,9 +25,10 @@ const Roles = () => {
         {
           id: 3,
           name: "Viewer",
-          permissions: ["Read"],
+          permissions: ["Read"]
         }
       ];
+      console.log("Sample roles:", sampleRoles);
       setRoles(sampleRoles);
       localStorage.setItem("roles", JSON.stringify(sampleRoles));
     }
@@ -34,6 +36,7 @@ const Roles = () => {
 
   useEffect(() => {
     if (roles.length > 0) {
+      console.log("Saving roles to localStorage:", roles);
       localStorage.setItem("roles", JSON.stringify(roles));
     }
   }, [roles]);
@@ -41,6 +44,7 @@ const Roles = () => {
   const handleAddRole = () => {
     if (!newRole.name) return;
     const newRoleWithId = { ...newRole, id: roles.length + 1 };
+    console.log("Adding new role:", newRoleWithId); // Log the new role
     setRoles([...roles, newRoleWithId]);
     setNewRole({ name: "", permissions: [] });
   };
@@ -80,22 +84,27 @@ const Roles = () => {
             </tr>
           </thead>
           <tbody>
-            {roles.map((role) => (
-              <tr key={role.id} className="border-b hover:bg-gray-50">
-                <td className="px-6 py-4 text-sm text-gray-800">{role.name}</td>
-                <td className="px-6 py-4 text-sm text-gray-600">
-                  {(role.permissions && role.permissions.length > 0) ? role.permissions.join(", ") : "No permissions"}
-                </td>
-                <td className="px-6 py-4">
-                  <button
-                    onClick={() => handleDeleteRole(role.id)}
-                    className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {roles.map((role) => {
+              console.log("Rendering role:", role); // Log each role data
+              return (
+                <tr key={role.id} className="border-b hover:bg-gray-50">
+                  <td className="px-6 py-4 text-sm text-gray-800">{role.name}</td>
+                  <td className="px-6 py-4 text-sm text-gray-600">
+                    {role.permissions && role.permissions.length > 0
+                      ? role.permissions.join(", ")
+                      : "No Permissions"}
+                  </td>
+                  <td className="px-6 py-4">
+                    <button
+                      onClick={() => handleDeleteRole(role.id)}
+                      className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
