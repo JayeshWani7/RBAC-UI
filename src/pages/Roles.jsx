@@ -20,13 +20,13 @@ const Roles = () => {
         {
           id: 2,
           name: "Editor",
-          permissions: ["Read", "Write"],
+          permissions: ["Read", "Write"]
         },
         {
           id: 3,
           name: "Viewer",
           permissions: ["Read"],
-        },
+        }
       ];
       setRoles(sampleRoles);
       localStorage.setItem("roles", JSON.stringify(sampleRoles));
@@ -82,22 +82,32 @@ const Roles = () => {
 
   return (
     <div className="p-4 bg-gray-50 rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">Role Management</h2>
+      <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+        Role Management
+      </h2>
 
       <div className="overflow-x-auto mb-6">
         <table className="min-w-full bg-white rounded-lg shadow-md">
           <thead>
             <tr className="bg-gray-100 border-b">
-              <th className="px-6 py-3 text-left text-sm font-medium text-gray-700">Role</th>
-              <th className="px-6 py-3 text-left text-sm font-medium text-gray-700">Permissions</th>
-              <th className="px-6 py-3 text-left text-sm font-medium text-gray-700">Actions</th>
+              <th className="px-6 py-3 text-left text-sm font-medium text-gray-700">
+                Role
+              </th>
+              <th className="px-6 py-3 text-left text-sm font-medium text-gray-700">
+                Permissions
+              </th>
+              <th className="px-6 py-3 text-left text-sm font-medium text-gray-700">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>
             {roles.map((role) => (
               <tr key={role.id} className="border-b hover:bg-gray-50">
                 <td className="px-6 py-4 text-sm text-gray-800">{role.name}</td>
-                <td className="px-6 py-4 text-sm text-gray-600">{role.permissions.join(", ")}</td>
+                <td className="px-6 py-4 text-sm text-gray-600">
+                  {(role.permissions && role.permissions.length > 0) ? role.permissions.join(", ") : "No permissions"}
+                </td>
                 <td className="px-6 py-4">
                   <button
                     onClick={() => handleEditRole(role)}
@@ -120,18 +130,24 @@ const Roles = () => {
 
       {editingRole ? (
         <div className="bg-white p-4 rounded-lg shadow-md mb-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Edit Role</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">
+            Edit Role
+          </h3>
           <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
             <input
               type="text"
               className="w-full md:w-1/3 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={editingRole.name}
-              onChange={(e) => setEditingRole({ ...editingRole, name: e.target.value })}
+              onChange={(e) =>
+                setEditingRole({ ...editingRole, name: e.target.value })
+              }
               placeholder="Role Name"
             />
 
             <div className="flex flex-col gap-2">
-              <label className="font-medium text-gray-700">Update Permissions:</label>
+              <label className="font-medium text-gray-700">
+                Update Permissions:
+              </label>
               <div className="flex flex-wrap gap-2">
                 {permissionsList.map((permission) => (
                   <label key={permission} className="flex items-center gap-2">
@@ -157,7 +173,9 @@ const Roles = () => {
         </div>
       ) : (
         <div className="bg-white p-4 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Add New Role</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">
+            Add New Role
+          </h3>
           <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
             <input
               type="text"
@@ -168,7 +186,9 @@ const Roles = () => {
             />
 
             <div className="flex flex-col gap-2">
-              <label className="font-medium text-gray-700">Select Permissions:</label>
+              <label className="font-medium text-gray-700">
+                Select Permissions:
+              </label>
               <div className="flex flex-wrap gap-2">
                 {permissionsList.map((permission) => (
                   <label key={permission} className="flex items-center gap-2">
