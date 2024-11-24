@@ -18,8 +18,8 @@ To run this project locally, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone <repository-url>
-   cd <project-directory>
+   git clone https://github.com/JayeshWani7/RBAC-UI.git
+   cd rbac-ui
    ```
 
 2. Install dependencies:
@@ -69,6 +69,55 @@ When you add a role called "Admin" with the permissions `Read` and `Write`, the 
    - `useEffect`: 
      - Loads roles from `localStorage` when the component mounts.
      - Saves the updated roles to `localStorage` whenever roles change.
+    
+# 🔍 Filter Functionality
+
+The application includes a dynamic filtering feature to help users filter the displayed user list based on **Role** and **Status**.
+
+## Features
+
+- **Filter by Role**: Select a role to display users assigned to that role.
+- **Filter by Status**: Choose between "Active" and "Inactive" statuses to refine the list further.
+- **Multiple Filters**: Combine role and status filters for more precise results.
+- **Reset Filters**: Leave the dropdown blank to reset and view all users.
+
+## Usage
+
+1. **Filter by Role**:
+   - Open the "Role" dropdown.
+   - Select a role (e.g., "Admin", "Editor").
+   - The user list updates to display only users with the selected role.
+
+2. **Filter by Status**:
+   - Open the "Status" dropdown.
+   - Select a status (e.g., "Active", "Inactive").
+   - The list updates to display users with the chosen status.
+
+3. **Combine Filters**:
+   - Select both a role and a status to apply multiple filters.
+   - For example, choose "Editor" as the role and "Active" as the status to view active editors.
+
+4. **Reset Filters**:
+   - To reset, select the default option (`All Roles` or `All Statuses`) from the dropdown.
+
+## Example Usage
+
+| **Name**    | **Email**           | **Role**   | **Status**   |
+|-------------|---------------------|------------|--------------|
+| John Doe    | john@example.com    | Admin      | Active       |
+| Jane Smith  | jane@example.com    | Editor     | Inactive     |
+
+### Filters Applied:
+- **Role**: `Admin`
+- **Status**: `Active`
+
+### Result:
+- Only **John Doe** is displayed.
+
+---
+
+This filtering feature improves usability, making it easier to manage large datasets by allowing quick and efficient user segmentation.
+
 
 ## Technologies Used
 
@@ -76,9 +125,6 @@ When you add a role called "Admin" with the permissions `Read` and `Write`, the 
 - **localStorage**: Used to persist role data across page reloads.
 - **Tailwind CSS**: Used for styling the components.
 
-## Example Screenshot
-
-![Roles Management](./screenshot.png)
 
 ## Contributing
 
