@@ -4,7 +4,6 @@ const Roles = () => {
   const [roles, setRoles] = useState([]);
   const [permissionsList] = useState(["Read", "Write", "Delete"]);
   const [newRole, setNewRole] = useState({ name: "", permissions: [] });
-  const [editingRole, setEditingRole] = useState(null);
 
   useEffect(() => {
     const savedRoles = JSON.parse(localStorage.getItem("roles"));
@@ -50,34 +49,13 @@ const Roles = () => {
     setRoles(roles.filter((role) => role.id !== id));
   };
 
-  const togglePermission = (permission, isEditing = false) => {
-    if (isEditing) {
-      setEditingRole((prevRole) => ({
-        ...prevRole,
-        permissions: prevRole.permissions.includes(permission)
-          ? prevRole.permissions.filter((perm) => perm !== permission)
-          : [...prevRole.permissions, permission],
-      }));
-    } else {
-      setNewRole((prevRole) => ({
-        ...prevRole,
-        permissions: prevRole.permissions.includes(permission)
-          ? prevRole.permissions.filter((perm) => perm !== permission)
-          : [...prevRole.permissions, permission],
-      }));
-    }
-  };
-
-  const handleEditRole = (role) => {
-    setEditingRole(role);
-  };
-
-  const handleUpdateRole = () => {
-    if (!editingRole.name) return;
-    setRoles(
-      roles.map((role) => (role.id === editingRole.id ? editingRole : role))
-    );
-    setEditingRole(null);
+  const togglePermission = (permission) => {
+    setNewRole((prevRole) => ({
+      ...prevRole,
+      permissions: prevRole.permissions.includes(permission)
+        ? prevRole.permissions.filter((perm) => perm !== permission)
+        : [...prevRole.permissions, permission],
+    }));
   };
 
   return (
@@ -110,12 +88,6 @@ const Roles = () => {
                 </td>
                 <td className="px-6 py-4">
                   <button
-                    onClick={() => handleEditRole(role)}
-                    className="px-3 py-1 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 mr-2"
-                  >
-                    Edit
-                  </button>
-                  <button
                     onClick={() => handleDeleteRole(role.id)}
                     className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
                   >
@@ -128,91 +100,46 @@ const Roles = () => {
         </table>
       </div>
 
-      {editingRole ? (
-        <div className="bg-white p-4 rounded-lg shadow-md mb-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">
-            Edit Role
-          </h3>
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
-            <input
-              type="text"
-              className="w-full md:w-1/3 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={editingRole.name}
-              onChange={(e) =>
-                setEditingRole({ ...editingRole, name: e.target.value })
-              }
-              placeholder="Role Name"
-            />
+      <div className="bg-white p-4 rounded-lg shadow-md">
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">
+          Add New Role
+        </h3>
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+          <input
+            type="text"
+            className="w-full md:w-1/3 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={newRole.name}
+            onChange={(e) => setNewRole({ ...newRole, name: e.target.value })}
+            placeholder="Role Name"
+          />
 
-            <div className="flex flex-col gap-2">
-              <label className="font-medium text-gray-700">
-                Update Permissions:
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {permissionsList.map((permission) => (
-                  <label key={permission} className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      className="form-checkbox text-blue-500"
-                      checked={editingRole.permissions.includes(permission)}
-                      onChange={() => togglePermission(permission, true)}
-                    />
-                    <span className="text-sm text-gray-600">{permission}</span>
-                  </label>
-                ))}
-              </div>
+          <div className="flex flex-col gap-2">
+            <label className="font-medium text-gray-700">
+              Select Permissions:
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {permissionsList.map((permission) => (
+                <label key={permission} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    className="form-checkbox text-blue-500"
+                    checked={newRole.permissions.includes(permission)}
+                    onChange={() => togglePermission(permission)}
+                  />
+                  <span className="text-sm text-gray-600">{permission}</span>
+                </label>
+              ))}
             </div>
-
-            <button
-              onClick={handleUpdateRole}
-              className="px-6 py-2 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 transition"
-            >
-              Update Role
-            </button>
           </div>
-        </div>
-      ) : (
-        <div className="bg-white p-4 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">
-            Add New Role
-          </h3>
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
-            <input
-              type="text"
-              className="w-full md:w-1/3 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={newRole.name}
-              onChange={(e) => setNewRole({ ...newRole, name: e.target.value })}
-              placeholder="Role Name"
-            />
 
-            <div className="flex flex-col gap-2">
-              <label className="font-medium text-gray-700">
-                Select Permissions:
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {permissionsList.map((permission) => (
-                  <label key={permission} className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      className="form-checkbox text-blue-500"
-                      checked={newRole.permissions.includes(permission)}
-                      onChange={() => togglePermission(permission)}
-                    />
-                    <span className="text-sm text-gray-600">{permission}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <button
-              onClick={handleAddRole}
-              className="px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition"
-            >
-              Add Role
-            </button>
-          </div>
+          <button
+            onClick={handleAddRole}
+            className="px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition"
+          >
+            Add Role
+          </button>
         </div>
-      )}
+      </div>
     </div>
   );
 };
